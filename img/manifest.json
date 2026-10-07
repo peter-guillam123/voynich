@@ -159,13 +159,13 @@
     "section": "cosmological",
     "description": "The rosettes foldout: nine circular diagrams joined by paths, with castles, tubes and a central rosette.",
     "source_page": "https://commons.wikimedia.org/wiki/File:Voynich_Manuscript_(158).jpg",
-    "image_url": "https://collections.library.yale.edu/iiif/2/1006231/full/991,/0/default.jpg",
+    "image_url": "https://collections.library.yale.edu/iiif/2/1006231/full/1982,/0/default.jpg",
     "licence": "Public domain - Yale Beinecke Rare Book & Manuscript Library",
-    "width": 991,
-    "height": 909,
+    "width": 1982,
+    "height": 1818,
     "yale_page": "https://collections.library.yale.edu/catalog/2002046",
     "yale_iiif_id": "1006231",
-    "note": "Downloaded from Yale's IIIF server (Beinecke canvas labelled '85v-f86r'). Commons file (158) checked by eye against the Yale image: same page."
+    "note": "Downloaded from Yale's IIIF server (Beinecke canvas labelled '85v-f86r'). Commons file (158) checked by eye against the Yale image: same page. Replaced with the half-size render from Yale, recompressed to JPEG quality 55."
   },
   {
     "file": "f88r.jpg",

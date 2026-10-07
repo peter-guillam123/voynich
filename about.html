@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About: the Voynich explainer</title>
+<meta name="description" content="What this page is, how it was made, where its facts come from, and a diary of the build.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="about">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="inner">
+    <a class="brand" href="index.html"><span class="eva" aria-hidden="true">daiin</span><span class="word">Voynich</span><span class="visually-hidden">Voynich: back to the explainer</span></a>
+    <nav class="chapnav" aria-label="Pages"><a href="index.html">The explainer</a><a href="#what">What this is</a><a href="#how">How it is made</a><a href="#diary">Diary</a></nav>
+    <button class="iconbtn" id="theme-toggle" type="button" aria-label="Switch theme">Dark</button>
+  </div>
+</header>
+<main id="main">
+<section class="chapter" id="what">
+  <div class="chapter-head">
+    <p class="chapter-num">About</p>
+    <h2>What this is</h2>
+    <p class="standfirst">An interactive guide to the Voynich manuscript, built in a day after the Guardian reported a new paper arguing the book's pages are bound in the wrong order.</p>
+  </div>
+  <div class="prose">
+    <p>I have been fascinated by the Voynich manuscript for years, in the way you are fascinated by a locked door. The trouble with most writing about it is that the legends and the evidence get served on the same plate. Roger Bacon, John Dee, the 600 ducats, the sunflower, the Hebrew-by-computer: all of it sits next to the carbon date as if it were equally solid. It is not.</p>
+    <p>So the rule for this page was simple. Every factual claim carries a number, and the number links to a source you can check. Where the sources disagree, the text says so. Where something is a guess, it is called a guess. The last chapter sorts the whole subject into three piles, established, argued and guessed, which is the division I wish every popular account started with.</p>
+    <p>The other ambition was to let you see the thing rather than read about it. The pictures are Yale's own scans, which the Beinecke Library publishes free of restriction. The script is set in a font drawn from the manuscript's hand. And the statistics in the script chapter were not copied from a paper: I ran the counts myself on the standard transliteration, and on three ordinary texts for comparison, so the charts show the real numbers and the method is in the open.</p>
+  </div>
+</section>
+
+<section class="chapter" id="how">
+  <div class="chapter-head">
+    <p class="chapter-num">Method</p>
+    <h2>How it is made</h2>
+  </div>
+  <div class="prose">
+    <h3>The research</h3>
+    <p>The page draws on four strands. The physical facts and the history come from the Beinecke's catalogue records and from René Zandbergen's site voynich.nu, which is the reference work in this field, maintained since the 1990s and cited by the scholars. The script analysis rests on Prescott Currier's 1976 paper, Mary D'Imperio's 1978 survey, Lisa Fagin Davis's 2020 handwriting study and Claire Bowern and Luke Lindemann's 2021 review. The claims ledger was checked claim by claim against the original papers, press releases and the university statements that followed them. And the new paper, Layfield and Davis's "Singulion Structure and the Voynich Manuscript", was read in full, which is how the page knows that the Qur'an comparison in the Guardian's report comes from an interview and not from the paper itself.</p>
+    <p>The research notes, with every URL, are kept in the project folder alongside the page, in <code>research/</code>. Things that could not be verified on a live page are flagged there and left out here.</p>
+
+    <h3>The statistics</h3>
+    <p>All word counts use the Zandbergen–Landini transliteration (ZL, version 3b, May 2025) in the EVA alphabet. The script <code>data/stats.py</code> reads the file, keeps paragraph text only (it drops labels and the text written in circles), takes the first reading wherever the transcribers offer alternatives, treats uncertain spaces as spaces, and drops any word containing an unreadable character. That leaves 34,074 words in 7,417 distinct forms. The same script runs the same counts on Jane Austen's <em>Pride and Prejudice</em> (the first 34,074 words), Dante's <em>Commedia</em> (the first 34,074 words) and the first four books of Caesar's <em>Gallic War</em> (10,059 words), all from Project Gutenberg, lower-cased and stripped of punctuation.</p>
+    <p>The "conditional entropy" chart measures how much uncertainty is left about the next letter once you know the current one, in bits, counting each EVA letter as one symbol. The absolute numbers depend on the alphabet you choose, which is why published studies differ; the gap between Voynichese and the natural languages does not depend on it. The repeat rates count pairs of adjacent identical words per thousand words. The Zipf chart uses the first thousand word types. The Currier A and B figures use the language labels in the transliteration file, which follow Currier's own classification.</p>
+    <p>The page-by-page dataset behind the book map was scraped from Zandbergen's quire pages with <code>data/build_folios.py</code>, which records its sources and its mapping decisions in <code>data/folios-README.md</code>.</p>
+
+    <h3>The build</h3>
+    <p>Plain HTML, CSS and JavaScript, no framework, no build step. The charts are hand-drawn SVG. The binding animation moves leaves between three arrangements with CSS transitions. The pan-and-zoom viewer, the zodiac wheel, the glyph table and the word builder are each a short script. Everything works by keyboard and screen reader, respects reduced-motion settings, and scrolls sideways rather than shrinking on a phone where a chart would otherwise become unreadable. The chart colours were validated for colour-blind readers in both light and dark modes.</p>
+    <p>The Voynich letterforms are Gabriel Landini's EVA Hand 1 font, used unmodified under its terms (free, with acknowledgement; the licence is in <code>fonts/</code>). Images are from the Beinecke Rare Book and Manuscript Library, Yale University; <code>img/manifest.json</code> records where each one came from. Fonts for the text are Fraunces, Source Serif and Inter.</p>
+    <p>Built by Chris Moran with Claude, Anthropic's AI model, which did the typing, the research legwork and the statistics under direction, and whose work was checked against the sources.</p>
+  </div>
+</section>
+
+<section class="chapter diary" id="diary">
+  <div class="chapter-head">
+    <p class="chapter-num">Diary</p>
+    <h2>What was built and why</h2>
+    <p class="standfirst">Newest first.</p>
+  </div>
+  <div class="prose">
+    <article class="entry milestone">
+      <div class="date">7 October 2026</div>
+      <h3>First version</h3>
+      <p>The Guardian ran Philip Oltermann's piece on the Layfield and Davis paper this week and I wanted something better than another "mystery manuscript" explainer: a page that could show the book, show the evidence, and keep the guesses honest. One day's work. Eight chapters, eleven interactives, 65 sources.</p>
+      <p>Decisions worth recording. The own-look palette is taken from the manuscript's pigments: azurite blue, copper green, red ochre, with a violet standing in for the yellow that has faded from the book, because yellow failed the colour-blindness check next to green. The headline is a fact, not a metaphor. The three-column verdict chapter was the last thing written and should probably have been the first thing planned. The statistics are computed rather than quoted because every secondary source quoted slightly different numbers, and the only way to be sure was to count.</p>
+      <p>What is not here yet: the rosettes image is a medium-resolution scan, so zooming in has limits; a larger one would need a slow fetch from Yale's image server. The folio pages are about 700 pixels wide for the same reason. And the binding animation shows the idea of singulions with one model quire and one real one; the paper's proposed orders for the other sections are in the paper.</p>
+    </article>
+  </div>
+</section>
+</main>
+<footer class="site"><div class="prose"><p><a href="index.html">Back to the explainer.</a></p></div></footer>
+<script src="js/main.js" defer></script>
+</body>
+</html>

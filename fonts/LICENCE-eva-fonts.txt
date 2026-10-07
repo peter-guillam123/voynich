@@ -1,0 +1,105 @@
+Voynich Hand A fonts
+--------------------
+
+Copyright (C) G. Landini 1997. All rights reserved.
+
+This package contains EVA, Currier and Frogguy alphabet fonts of the
+most common characters in the Voynich Manuscript, in the following
+formats:
+
+        True Type (Windows),
+        True Type (Macintosh),
+        Type 1 (Unix),
+        Type 1 (Windows),
+
+The fonts in this package are free, but not public domain.
+You may distribute this package freely and unmodified. You may not
+charge for it. You may not distribute it as part of any commercial
+package. If you use the fonts in any work, please acknowledge the
+author. If you do not like or agree to these conditions, then make
+your own fonts!
+
+The EVA and Frogguy fonts support the capitalisation rules (connected 
+to the next character if capitalised).
+
+Note that if you use the fonts in Word, the single quotation (') and
+double quotation (") are changed automatically into "smart quotes"
+(which are in fact different characters). This will therefore prevent
+you to see the expected characters. This happens only if you type new
+text; if you load a text file, the ' and " are kept unchanged.
+
+Alternatively, the autocorrection can be switched off from the Tools,
+Autocorrect (Word 6) or from Tools, Options (Word 6 & 7) menu items.
+
+Thanks to Rene Zandbergen, Jacques Guy & Jim Reeds for suggestions and
+testing the fonts.
+If you find any problems, e-mail me at G.Landini@bham.ac.uk
+
+The Macintosh fonts were translated by Michael Kubecka. Please see
+the README.MAC file included in this archive. As I do not have a
+Macintosh computer available, I am afraid that I would not be able
+to answer any technical questions relating to the Mac fonts.
+
+
+Contents of the vfonts.zip archive.
+===================================
+
+EVA FONTS:
+==========
+evaa.ttf     True Type font (Windows)
+---
+evaa.nxt     Type 1 font for Unix
+evaa.afm
+---
+voevah.afm   Type 1 font for Windows
+voevah.cfg
+voevah.inf
+voevah.pfb
+voevah.pfm
+---
+
+CURRIER FONTS:
+==============
+curria.ttf    True Type font (Windows)
+---
+curria.nxt    Type 1 font for Unix
+curria.afm
+---
+vocha.afm    Type 1 font for Windows
+vocha.cfg
+vocha.inf
+vocha.pfb
+vocha.pfm
+---
+
+FROGGUY FONTS:
+==============
+froga.ttf    True Type font (Windows)
+---
+froga.nxt    Type 1 font for Unix
+froga.afm
+---
+vofha.afm    Type 1 font for Windows
+vofha.cfg
+vofha.inf
+vofha.pfb
+vofha.pfm
+---
+
+readme.mac     The instructions to install the Mac fonts, and
+keymap.gif     the key mappings of the fonts. By Michael Kubecka.
+---
+
+macvoy.hqx     The Voynich True Type fonts for the Macintosh. 
+               Translated by Michael Kubecka.
+---
+
+vfonts.txt     This file
+---
+
+
+Any comments will be appreciated.
+
+Gabriel Landini <G.Landini@bham.ac.uk>
+
+---End of vfonts.txt---

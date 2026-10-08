@@ -7,6 +7,7 @@ Davis "singulion" paper.
 Audience: readers (general public), on phones as much as desktops
 Voice: my voice, editorial register, Orwell's six rules
 Design: its own look (warm vellum and ink; no Guardian fonts or colours)
+Public: yes. Repo peter-guillam123/voynich, GitHub Pages via Actions, card on the peter-guillam123.github.io index.
 
 ## Rules for this project
 

@@ -78,19 +78,21 @@
 
   // Annotated images: numbered pins that open notes
   document.querySelectorAll('.annot').forEach(box => {
-    const notes = box.parentElement.querySelectorAll('.pin-notes li');
-    box.querySelectorAll('.pin').forEach(pin => {
-      pin.addEventListener('click', () => {
-        const open = pin.getAttribute('aria-expanded') === 'true';
-        box.querySelectorAll('.pin').forEach(p => p.setAttribute('aria-expanded', 'false'));
-        notes.forEach(n => n.classList.remove('active'));
-        if (!open) {
-          pin.setAttribute('aria-expanded', 'true');
-          const n = document.getElementById(pin.getAttribute('aria-controls'));
-          if (n) { n.classList.add('active'); n.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); }
-        }
-      });
-    });
+    const wrap = box.closest('.walk') || box.parentElement;
+    const notes = wrap.querySelectorAll('.pin-notes li');
+    const pins = box.querySelectorAll('.pin');
+    function activate(pin, scroll) {
+      const open = pin.getAttribute('aria-expanded') === 'true';
+      pins.forEach(p => p.setAttribute('aria-expanded', 'false'));
+      notes.forEach(n => n.classList.remove('active'));
+      if (!open) {
+        pin.setAttribute('aria-expanded', 'true');
+        const n = document.getElementById(pin.getAttribute('aria-controls'));
+        if (n) { n.classList.add('active'); if (scroll) n.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); }
+      }
+    }
+    pins.forEach(pin => pin.addEventListener('click', () => activate(pin, true)));
+    notes.forEach(n => n.addEventListener('click', () => { const pin = box.querySelector(`.pin[aria-controls="${n.id}"]`); if (pin) activate(pin, false); }));
   });
 
   // Chart table toggles (charts.js builds the tables)

@@ -76,23 +76,58 @@
     a.addEventListener('blur', hidePop);
   });
 
-  // Annotated images: numbered pins that open notes
+  // Annotated images: numbered pins that open notes and zoom the picture to the spot
   document.querySelectorAll('.annot').forEach(box => {
     const wrap = box.closest('.walk') || box.parentElement;
     const notes = wrap.querySelectorAll('.pin-notes li');
-    const pins = box.querySelectorAll('.pin');
-    function activate(pin, scroll) {
-      const open = pin.getAttribute('aria-expanded') === 'true';
-      pins.forEach(p => p.setAttribute('aria-expanded', 'false'));
-      notes.forEach(n => n.classList.remove('active'));
-      if (!open) {
-        pin.setAttribute('aria-expanded', 'true');
-        const n = document.getElementById(pin.getAttribute('aria-controls'));
-        if (n) { n.classList.add('active'); if (scroll) n.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); }
-      }
+    const pins = [...box.querySelectorAll('.pin')];
+    const img = box.querySelector('img');
+    const ZOOM = parseFloat(box.getAttribute('data-zoom') || '2.4');
+    pins.forEach(p => { p.dataset.x = parseFloat(p.style.left) / 100; p.dataset.y = parseFloat(p.style.top) / 100; });
+    let s = 1, tx = 0, ty = 0, active = null;
+    img.style.transformOrigin = '0 0';
+    img.style.transition = reduced ? 'none' : 'transform .7s cubic-bezier(.22,.61,.36,1)';
+    function layout() {
+      const W = box.clientWidth, H = box.clientHeight;
+      img.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+      pins.forEach(p => {
+        p.style.left = (p.dataset.x * W * s + tx) + 'px';
+        p.style.top = (p.dataset.y * H * s + ty) + 'px';
+        p.style.transition = reduced ? 'none' : 'left .7s cubic-bezier(.22,.61,.36,1), top .7s cubic-bezier(.22,.61,.36,1), transform .15s, background .2s';
+      });
+      box.classList.toggle('zoomed', s > 1);
     }
-    pins.forEach(pin => pin.addEventListener('click', () => activate(pin, true)));
+    function reset() {
+      s = 1; tx = 0; ty = 0; active = null;
+      pins.forEach(p => { p.setAttribute('aria-expanded', 'false'); p.classList.remove('ring'); });
+      notes.forEach(n => n.classList.remove('active'));
+      layout();
+    }
+    function activate(pin, scroll) {
+      if (active === pin) { reset(); return; }
+      active = pin;
+      pins.forEach(p => { p.setAttribute('aria-expanded', 'false'); p.classList.remove('ring'); });
+      notes.forEach(n => n.classList.remove('active'));
+      pin.setAttribute('aria-expanded', 'true'); pin.classList.add('ring');
+      const n = document.getElementById(pin.getAttribute('aria-controls'));
+      if (n) { n.classList.add('active'); if (scroll) n.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); }
+      const W = box.clientWidth, H = box.clientHeight;
+      s = ZOOM;
+      tx = Math.min(0, Math.max(W - W * s, W / 2 - pin.dataset.x * W * s));
+      ty = Math.min(0, Math.max(H - H * s, H / 2 - pin.dataset.y * H * s));
+      layout();
+    }
+    pins.forEach(pin => pin.addEventListener('click', e => { e.stopPropagation(); activate(pin, true); }));
     notes.forEach(n => n.addEventListener('click', () => { const pin = box.querySelector(`.pin[aria-controls="${n.id}"]`); if (pin) activate(pin, false); }));
+    box.addEventListener('click', () => { if (s > 1) reset(); });
+    box.addEventListener('keydown', e => { if (e.key === 'Escape' && s > 1) reset(); });
+    window.addEventListener('resize', layout);
+    img.addEventListener('load', layout);
+    layout();
+    // a visible way back
+    const back = document.createElement('button'); back.type = 'button'; back.className = 'annot-reset'; back.textContent = 'Show whole page'; back.setAttribute('aria-label', 'Zoom back out to the whole page');
+    back.addEventListener('click', e => { e.stopPropagation(); reset(); });
+    box.appendChild(back);
   });
 
   // Chart table toggles (charts.js builds the tables)

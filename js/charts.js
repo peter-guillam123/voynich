@@ -75,24 +75,33 @@
   bars('chart-entropy', 'How predictable is the next letter?', 'How much uncertainty is left about the next letter once you know the one before it, measured in bits. A fair coin toss is one bit. Lower means more predictable, and Voynichese sits far below the natural languages.', 'Our calculation on the same four texts, treating each EVA letter as one symbol (26 symbols including the space). Published studies using other alphabets get similar gaps.', d => d.h2, ' bits', 4, 'A fair coin is 1 bit; the lower the bar, the easier the next letter is to guess');
   bars('chart-repeats', 'How often does a word repeat itself straight away?', 'Identical words written twice in a row, per 1,000 words. "qokedy qokedy" is normal in Voynichese and almost unheard of in prose.', 'Our calculation on the same texts. Near-repeats (one letter different) are commoner still: about 33 per 1,000 in Voynichese against 7 in English.', d => d.repeat_rate, ' per 1,000', 10, '');
 
-  // 3. Zipf log-log
+  // 3. Zipf log-log, normalised per 10,000 words so texts of different sizes can be compared
   (function () {
     const host = document.getElementById('chart-zipf'); if (!host) return;
-    const { wrap, legend, table } = frame(host, 'Zipf\'s law: rank against frequency', 'The commonest word on the left, the rarest on the right, with both axes compressed so that a steady fall shows as a straight line. Every real language makes roughly a straight line. So does Voynichese. That rules nothing in, but it is one hurdle a hoax has to clear.', 'Our calculation; first 1,000 word types of each text.');
-    const W = 720, H = 320, m = { t: 12, r: 20, b: 40, l: 50 };
-    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Log-log plot of word rank against frequency' }, wrap);
-    const lx = v => m.l + Math.log10(v) / 3 * (W - m.l - m.r), ly = v => m.t + (1 - Math.log10(v) / 3.2) * (H - m.t - m.b);
-    [1, 10, 100, 1000].forEach(v => { el('line', { x1: lx(v), x2: lx(v), y1: m.t, y2: H - m.b, stroke: 'var(--rule)', 'stroke-dasharray': '2 3' }, svg); el('text', { x: lx(v), y: H - m.b + 16, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11 }, svg).textContent = v; });
+    const { wrap, legend, table } = frame(host, 'Zipf\'s law: how quickly the words thin out', 'Each word in a text, ranked from the commonest on the left to the rarest on the right, against how often it occurs per 10,000 words. Both axes are compressed so that a steady fall shows as a straight line. Every real language makes roughly a straight line. So does Voynichese. That rules nothing in, but it is one hurdle a hoax has to clear.', 'Our calculation; the first 1,000 word types of each text, scaled to occurrences per 10,000 words so that the shorter Latin sample sits on the same footing.');
+    const W = 720, H = 340, m = { t: 12, r: 120, b: 44, l: 56 };
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Log-log plot of word rank against frequency per 10,000 words, for Voynichese, English, Italian and Latin' }, wrap);
+    const lx = v => m.l + Math.log10(v) / 3 * (W - m.l - m.r), ly = v => m.t + (1 - Math.log10(v) / 3) * (H - m.t - m.b);
+    [1, 10, 100, 1000].forEach(v => { el('line', { x1: lx(v), x2: lx(v), y1: m.t, y2: H - m.b, stroke: 'var(--rule)', 'stroke-dasharray': '2 3' }, svg); el('text', { x: lx(v), y: H - m.b + 16, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11 }, svg).textContent = v === 1 ? '1st' : v + 'th'; });
     [1, 10, 100, 1000].forEach(v => { el('line', { x1: m.l, x2: W - m.r, y1: ly(v), y2: ly(v), stroke: 'var(--rule)', 'stroke-dasharray': '2 3' }, svg); el('text', { x: m.l - 6, y: ly(v) + 4, 'text-anchor': 'end', fill: 'var(--ink-2)', 'font-size': 11 }, svg).textContent = v; });
-    el('text', { x: (m.l + W) / 2, y: H - 4, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11 }, svg).textContent = 'Rank of word (1 = commonest)';
-    el('text', { x: 12, y: (H - m.b) / 2, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11, transform: `rotate(-90 12 ${(H - m.b) / 2})` }, svg).textContent = 'Times it occurs';
+    el('text', { x: (m.l + W - m.r) / 2, y: H - 4, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11 }, svg).textContent = 'Rank of the word, commonest first';
+    el('text', { x: 14, y: (H - m.b) / 2, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11, transform: `rotate(-90 14 ${(H - m.b) / 2})` }, svg).textContent = 'Occurrences per 10,000 words';
+    const ends = [];
     series.forEach(s => {
-      const z = S[s.key].zipf.slice(0, 1000);
-      el('path', { d: z.map((f, i) => (i ? 'L' : 'M') + lx(i + 1) + ' ' + ly(Math.max(1, f))).join(' '), fill: 'none', stroke: s.color, 'stroke-width': s.key === 'voynich' ? 3 : 2, opacity: s.key === 'voynich' ? 1 : 0.85 }, svg);
-      const lab = el('text', { x: lx(1) + 10, y: ly(z[0]) + (s.key === 'voynich' ? -4 : s.key === 'english' ? 14 : s.key === 'italian' ? 28 : 42), fill: s.color, 'font-size': 11, 'font-weight': 600 }, svg); lab.textContent = s.name + ' (top word: ' + S[s.key].top[0][0] + ')';
+      const z = S[s.key].zipf.slice(0, 1000).map(f => Math.max(1, f * 10000 / S[s.key].tokens));
+      el('path', { d: z.map((f, i) => (i ? 'L' : 'M') + lx(i + 1) + ' ' + ly(f)).join(' '), fill: 'none', stroke: s.color, 'stroke-width': s.key === 'voynich' ? 3 : 2, opacity: s.key === 'voynich' ? 1 : 0.8 }, svg);
+      ends.push({ s, y: ly(z[z.length - 1]), top: S[s.key].top[0][0], first: Math.round(z[0]) });
     });
-    legend.innerHTML = series.map(s => `<span><i style="background:${s.color}"></i>${s.name}</span>`).join('');
-    table.innerHTML = '<table><thead><tr><th>Rank</th>' + series.map(s => `<th class="num">${s.name}</th>`).join('') + '</tr></thead><tbody>' + [1, 2, 3, 5, 10, 20, 50, 100, 200, 500, 1000].map(r => `<tr><td>${r}</td>` + series.map(s => `<td class="num">${S[s.key].zipf[r - 1] || ''}</td>`).join('') + '</tr>').join('') + '</tbody></table>';
+    // end labels, spread apart so they never overlap
+    ends.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 15) ends[i].y = ends[i - 1].y + 15;
+    const over = ends[ends.length - 1].y - (H - m.b - 4); if (over > 0) ends.forEach(e => e.y -= over);
+    ends.forEach(e => {
+      el('line', { x1: lx(1000) + 2, x2: lx(1000) + 10, y1: e.y, y2: e.y, stroke: e.s.color, 'stroke-width': 2 }, svg);
+      const t = el('text', { x: lx(1000) + 14, y: e.y + 4, fill: e.s.color, 'font-size': 11, 'font-weight': 600 }, svg); t.textContent = e.s.name;
+    });
+    legend.innerHTML = series.map(s => `<span><i style="background:${s.color}"></i>${s.name}: commonest word "${S[s.key].top[0][0]}", ${Math.round(S[s.key].top[0][1] * 10000 / S[s.key].tokens)} per 10,000</span>`).join('');
+    table.innerHTML = '<table><thead><tr><th>Rank</th>' + series.map(s => `<th class="num">${s.name}</th>`).join('') + '</tr></thead><tbody>' + [1, 2, 3, 5, 10, 20, 50, 100, 200, 500, 1000].map(r => `<tr><td>${r}</td>` + series.map(s => `<td class="num">${S[s.key].zipf[r - 1] ? (S[s.key].zipf[r - 1] * 10000 / S[s.key].tokens).toFixed(1) : ''}</td>`).join('') + '</tr>').join('') + '</tbody></table>';
   })();
 
   // 4. Currier A vs B: paired horizontal bars

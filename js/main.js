@@ -130,6 +130,20 @@
     box.appendChild(back);
   });
 
+  // Lifespan chart: rows open a detail panel
+  document.querySelectorAll('.lives').forEach(fig => {
+    const rows = [...fig.querySelectorAll('.row[role="button"]')], details = fig.querySelectorAll('.detail');
+    function open(row) {
+      const already = row.getAttribute('aria-expanded') === 'true';
+      rows.forEach(r => r.setAttribute('aria-expanded', 'false')); details.forEach(d => d.classList.remove('show'));
+      if (already) { fig.querySelector('#lv-intro').classList.add('show'); return; }
+      row.setAttribute('aria-expanded', 'true');
+      const d = document.getElementById(row.getAttribute('aria-controls')); if (d) d.classList.add('show');
+      if (window.innerWidth <= 900) fig.querySelector('.panel').scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+    }
+    rows.forEach(r => { r.addEventListener('click', () => open(r)); r.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(r); } }); });
+  });
+
   // Chart table toggles (charts.js builds the tables)
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-toggle-table]'); if (!b) return;

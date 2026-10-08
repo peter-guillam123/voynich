@@ -248,6 +248,19 @@ p.standfirst { font-family: var(--display); font-size: 1.32em; line-height: 1.38
 .lives .title { font-family: var(--display); font-weight: 500; font-size: 1.35rem; margin-bottom: 4px; font-variation-settings: "opsz" 30; color: var(--ink); }
 .lives .sub { font-family: var(--ui); font-size: .84rem; color: var(--ink-2); margin-bottom: 18px; max-width: 72ch; line-height: 1.5; }
 .lives .sub b { color: var(--copper); font-weight: 700; }
+.lives .legend { display: flex; gap: 8px 18px; flex-wrap: wrap; font-size: .76rem; color: var(--ink-2); margin: 0 0 14px; }
+.lives .legend span { display: inline-flex; align-items: center; gap: 6px; } .lives .legend i { width: 14px; height: 10px; border-radius: 3px; display: inline-block; }
+.lives .body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
+.lives .chart-side { min-width: 0; }
+.lives .row[role="button"] { cursor: pointer; }
+.lives .row[role="button"]:hover { background: color-mix(in srgb, var(--paper-3) 60%, transparent); }
+.lives .row[aria-expanded="true"] { background: color-mix(in srgb, var(--ochre) 10%, transparent); box-shadow: inset 3px 0 0 var(--ochre); }
+.lives .panel { border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); padding: 14px 16px; font-size: .88rem; line-height: 1.55; min-height: 240px; position: sticky; top: 64px; }
+.lives .panel h4 { margin: 0 0 8px; font-family: var(--display); text-transform: none; letter-spacing: 0; font-size: 1.3rem; font-weight: 500; color: var(--ink); }
+.lives .panel p { margin-bottom: .7em; } .lives .panel .status { margin-left: 0; }
+.lives .panel p.claim { display: block; border: 0; padding: 0; background: none; margin: 0 0 .7em; grid-template-columns: none; }
+.lives .detail { display: none; } .lives .detail.show { display: block; }
+@media (max-width: 900px) { .lives .body { grid-template-columns: 1fr; } .lives .panel { position: static; } }
 .lives .axis { display: grid; grid-template-columns: 190px 1fr; align-items: end; margin-bottom: 6px; padding-top: 4px; }
 .lives .axis .ticks { position: relative; height: 22px; border-bottom: 1px solid var(--rule-strong); }
 .lives .axis .ticks span { position: absolute; bottom: 4px; transform: translateX(-50%); font-size: .72rem; color: var(--ink-2); letter-spacing: .04em; }
@@ -270,6 +283,7 @@ p.standfirst { font-family: var(--display); font-size: 1.32em; line-height: 1.38
 .lives .foot { font-size: .78rem; color: var(--ink-3); margin-top: 10px; line-height: 1.5; }
 @media (max-width: 700px) {
   .lives .axis, .lives .row { grid-template-columns: 1fr; }
+  .lives .who small { display: block; }
   .lives .axis .who { display: none; }
   .lives .band { left: calc((var(--b0) - var(--from)) / (var(--to) - var(--from)) * 100%); width: calc((var(--b1) - var(--b0)) / (var(--to) - var(--from)) * 100%); }
   .lives { padding: 14px 12px 12px; } .lives .who { padding: 8px 0 0; } .lives .track { height: 40px; } .lives .bar { top: 10px; }

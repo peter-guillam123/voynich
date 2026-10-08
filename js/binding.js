@@ -32,6 +32,8 @@
   let set = 'model', mode = 'flat';
 
   host.innerHTML = `
+    <div class="title" style="font-family:var(--display);font-size:1.35rem;margin-bottom:4px">Two ways to fold a book</div>
+    <div class="sub" style="font-family:var(--ui);font-size:.84rem;color:var(--ink-2);margin-bottom:14px;max-width:72ch;line-height:1.5">Each rectangle is a leaf; each pair of leaves is one folded sheet. Step through the three buttons to see how the same sheets give two different page orders, and what that does to a drawing that crosses a fold. Then try it with the real folio numbers of the bathing section.</div>
     <div class="modes" role="group" aria-label="Choose an arrangement">
       <button class="btn" data-mode="flat" aria-pressed="true">1. Lay the sheets flat</button>
       <button class="btn" data-mode="nested" aria-pressed="false">2. Nest them (as bound today)</button>

@@ -17,13 +17,14 @@
     </div>
     <div class="legend" aria-label="Legend"></div>
     <div class="grid" role="list" aria-label="Pages of the manuscript in order"></div>
-    <div class="readout" aria-live="polite">Hover over or tab to a page. Dashed tiles are leaves that have been lost; a pale bar marks a panel of a fold-out sheet.</div>`;
+    <div class="readout" aria-live="polite">Each tile is one page, left to right in the order the book is bound today: 227 surviving pages and fold-out panels, plus 28 dashed tiles for the lost leaves. Hover over or tap a page to see what is on it. Click a legend entry to pick out one kind of page.</div>`;
   const grid = host.querySelector('.grid'), legend = host.querySelector('.legend'), readout = host.querySelector('.readout');
 
   function keyOf(d) { return mode === 'section' ? d.section : mode === 'language' ? (d.language || 'none') : String(d.hand); }
   function render() {
     const m = MODES[mode];
-    legend.innerHTML = m.legend.map(l => `<button type="button" class="btn small" style="border-color:transparent;padding-left:4px" data-key="${l.key}" aria-pressed="${filter === l.key}"><span class="${l.cls}" style="display:inline-block;width:12px;height:12px;border-radius:2px;background:var(--c);margin-right:6px;vertical-align:-1px"></span>${l.label}</button>`).join('');
+    legend.innerHTML = m.legend.map(l => `<button type="button" class="btn small" style="border-color:transparent;padding-left:4px" data-key="${l.key}" aria-pressed="${filter === l.key}"><span class="${l.cls}" style="display:inline-block;width:12px;height:12px;border-radius:2px;background:var(--c);margin-right:6px;vertical-align:-1px"></span>${l.label}</button>`).join('')
+      + `<span class="key" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:var(--ink-3);position:relative"><span style="position:absolute;left:2px;right:2px;bottom:2px;height:2px;background:rgba(255,255,255,.8)"></span></span>Panel of a fold-out sheet</span><span class="key" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:2px;border:1px dashed var(--rule-strong)"></span>Lost leaf</span>`;
     legend.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { filter = filter === b.dataset.key ? null : b.dataset.key; render(); }));
     grid.innerHTML = '';
     data.forEach((d, i) => {

@@ -7,20 +7,20 @@
     { e: 'e', k: 'vowel-like', n: 'A small c-shape. Appears singly, doubled or tripled ("e", "ee", "eee") in the middle of words.' },
     { e: 'ch', k: 'bench', n: 'Two c-shapes joined by a bar, called the "bench". Found in more than a quarter of all words.' },
     { e: 'sh', k: 'bench', n: 'The bench with a plume on top. In one word in eight.' },
-    { e: 'i', k: 'stroke', n: 'A short vertical stroke, a minim. Never on its own: it comes in runs of one to three before "n", "r" or "l".' },
-    { e: 'n', k: 'final', n: 'A stroke with a flourish, almost always closing a word. One word in six ends "in" or "iin".' },
-    { e: 'r', k: 'final', n: 'A stroke with a hook. Mostly at the end of words.' },
-    { e: 'l', k: 'final', n: 'A looped letter. Common at the end of words, as in "ol" and "al".' },
-    { e: 's', k: 'final', n: 'Looks like a c with a hook. Can begin a word (often as the first word of a line) or end one.' },
-    { e: 'd', k: 'crust', n: 'Looks like a figure 8. The commonest word in the book, "daiin", begins with it.' },
-    { e: 'y', k: 'crust', n: 'Looks like a figure 9. Two words in five end with it. Also opens words, especially at the start of a line.' },
+    { e: 'i', k: 'short stroke', n: 'A short vertical stroke, a minim. Never on its own: it comes in runs of one to three before "n", "r" or "l".' },
+    { e: 'n', k: 'word-ending', n: 'A stroke with a flourish, almost always closing a word. One word in six ends "in" or "iin".' },
+    { e: 'r', k: 'word-ending', n: 'A stroke with a hook. Mostly at the end of words.' },
+    { e: 'l', k: 'word-ending', n: 'A looped letter. Common at the end of words, as in "ol" and "al".' },
+    { e: 's', k: 'word-ending', n: 'Looks like a c with a hook. Can begin a word (often as the first word of a line) or end one.' },
+    { e: 'd', k: 'word edge', n: 'Looks like a figure 8. The commonest word in the book, "daiin", begins with it.' },
+    { e: 'y', k: 'word edge', n: 'Looks like a figure 9. Two words in five end with it. Also opens words, especially at the start of a line.' },
     { e: 'q', k: 'prefix', n: 'Looks like a 4. Almost always the first letter of a word (99% of the time) and almost always followed by "o" (98%).' },
     { e: 'k', k: 'gallows', g: true, n: 'A "gallows" letter: a tall stem with a loop. Gallows begin paragraphs far more often than chance would allow.' },
     { e: 't', k: 'gallows', g: true, n: 'Gallows with two loops. Rare at the start of a line except as a paragraph opener.' },
     { e: 'p', k: 'gallows', g: true, n: 'Gallows with a loop at the foot. Nine per cent of first words on a line start with it; half a per cent of other words do.' },
     { e: 'f', k: 'gallows', g: true, n: 'The rarest gallows. Like "p", it clusters in the first line of paragraphs.' },
-    { e: 'cth', k: 'pedestal', g: true, n: 'A gallows sitting on the bench: "cth", "ckh", "cph", "cfh". Scholars disagree whether this is one letter or three.' },
-    { e: 'm', k: 'final', n: 'A stroke with a long tail. Almost always (95%) the last letter of a word, and that word is often the last on its line.' }
+    { e: 'cth', k: 'gallows on bench', g: true, n: 'A gallows sitting on the bench: "cth", "ckh", "cph", "cfh". Scholars disagree whether this is one letter or three.' },
+    { e: 'm', k: 'word-ending', n: 'A stroke with a long tail. Almost always (95%) the last letter of a word, and that word is often the last on its line.' }
   ];
   const host = document.getElementById('glyph-table');
   if (host) {

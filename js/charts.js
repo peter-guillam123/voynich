@@ -72,13 +72,13 @@
     legend.innerHTML = note ? `<span>${note}</span>` : '';
     table.innerHTML = '<table><thead><tr><th>Text</th><th class="num">Value</th></tr></thead><tbody>' + series.map(s => `<tr><td>${s.name}</td><td class="num">${fmt(getter(S[s.key]), 2)}${unit}</td></tr>`).join('') + '</tbody></table>';
   }
-  bars('chart-entropy', 'How predictable is the next letter?', 'Conditional entropy of the next character given the one before, in bits. Lower means more predictable. Voynichese sits far below the natural languages.', 'Our calculation on the same four texts, treating each EVA letter as one symbol (26 symbols including the space). Published studies using other alphabets get similar gaps.', d => d.h2, ' bits', 4, 'A fair coin is 1 bit; the lower the bar, the easier the next letter is to guess');
+  bars('chart-entropy', 'How predictable is the next letter?', 'How much uncertainty is left about the next letter once you know the one before it, measured in bits. A fair coin toss is one bit. Lower means more predictable, and Voynichese sits far below the natural languages.', 'Our calculation on the same four texts, treating each EVA letter as one symbol (26 symbols including the space). Published studies using other alphabets get similar gaps.', d => d.h2, ' bits', 4, 'A fair coin is 1 bit; the lower the bar, the easier the next letter is to guess');
   bars('chart-repeats', 'How often does a word repeat itself straight away?', 'Identical words written twice in a row, per 1,000 words. "qokedy qokedy" is normal in Voynichese and almost unheard of in prose.', 'Our calculation on the same texts. Near-repeats (one letter different) are commoner still: about 33 per 1,000 in Voynichese against 7 in English.', d => d.repeat_rate, ' per 1,000', 10, '');
 
   // 3. Zipf log-log
   (function () {
     const host = document.getElementById('chart-zipf'); if (!host) return;
-    const { wrap, legend, table } = frame(host, 'Zipf\'s law: rank against frequency', 'Every language forms a straight-ish downward line on these log scales. So does Voynichese. That rules nothing in, but it is one hurdle a hoax has to clear.', 'Our calculation; first 1,000 word types of each text.');
+    const { wrap, legend, table } = frame(host, 'Zipf\'s law: rank against frequency', 'The commonest word on the left, the rarest on the right, with both axes compressed so that a steady fall shows as a straight line. Every real language makes roughly a straight line. So does Voynichese. That rules nothing in, but it is one hurdle a hoax has to clear.', 'Our calculation; first 1,000 word types of each text.');
     const W = 720, H = 320, m = { t: 12, r: 20, b: 40, l: 50 };
     const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Log-log plot of word rank against frequency' }, wrap);
     const lx = v => m.l + Math.log10(v) / 3 * (W - m.l - m.r), ly = v => m.t + (1 - Math.log10(v) / 3.2) * (H - m.t - m.b);
@@ -98,7 +98,7 @@
   // 4. Currier A vs B: paired horizontal bars
   (function () {
     const host = document.getElementById('chart-ab'); if (!host) return;
-    const { wrap, legend, table } = frame(host, 'Two "languages" in one book', 'How often common words occur, per 1,000 words, in the pages Currier called language A and language B. Some words all but vanish from one half.', 'Our calculation from the ZL transliteration using its Currier labels: 10,709 words labelled A and 22,827 labelled B.');
+    const { wrap, legend, table } = frame(host, 'Two "languages" in one book', 'How often fifteen common words occur, per 1,000 words, in the pages Currier called language A (bars to the left) and language B (bars to the right). Some words all but vanish from one half of the book.', 'Our calculation from the ZL transliteration using its Currier labels: 10,709 words labelled A and 22,827 labelled B.');
     const words = S.AB_words.filter(w => ['daiin', 'chol', 'chor', 'cthy', 'sho', 's', 'chedy', 'shedy', 'qokeedy', 'qokedy', 'qokain', 'qokal', 'lchedy', 'ol', 'aiin'].includes(w[0]));
     const W = 720, rowH = 30, m = { t: 28, r: 20, b: 8, l: 80 }, H = m.t + m.b + words.length * rowH, mid = m.l + (W - m.l - m.r) / 2, half = (W - m.l - m.r) / 2 - 30, maxV = 45;
     const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Paired bar chart of word frequencies in Currier A and B' }, wrap);
@@ -122,7 +122,7 @@
   // 5. Line-start effect
   (function () {
     const host = document.getElementById('chart-linestart'); if (!host) return;
-    const { wrap, legend, table } = frame(host, 'The first word of a line is different', 'Share of words beginning with each letter, comparing the first word on a line with every other word. In a normal text the line break is invisible to the words. Here it is not.', 'Our calculation from the ZL transliteration, paragraph text.');
+    const { wrap, legend, table } = frame(host, 'The first word of a line is different', 'For each starting letter, the share of words that begin with it: first the first word on a line, then every other word. In a normal text the two bars would match, because a line break changes nothing about the words. Here they do not.', 'Our calculation from the ZL transliteration, paragraph text.');
     const keys = [['p', 'p (gallows)'], ['t', 't (gallows)'], ['y', 'y'], ['d', 'd'], ['s', 's'], ['c', 'c (ch, sh…)'], ['o', 'o'], ['q', 'q']];
     const W = 720, rowH = 34, m = { t: 26, r: 60, b: 8, l: 100 }, H = m.t + m.b + keys.length * rowH, maxV = 25;
     const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Paired bars comparing first words of lines with other words' }, wrap);

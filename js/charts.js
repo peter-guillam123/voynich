@@ -1,8 +1,8 @@
 /* Charts drawn from data/stats.json. Plain SVG, one axis each, legend plus direct labels,
    hover tooltips and a table view for every chart. */
-(async function () {
+(function () {
   const hosts = document.querySelectorAll('[data-chart]'); if (!hosts.length) return;
-  let S; try { S = await (await fetch('data/stats.json')).json(); } catch (e) { hosts.forEach(h => h.innerHTML = '<p class="small">Chart data could not load.</p>'); return; }
+  const S = window.VOYNICH && window.VOYNICH.stats; if (!S) { hosts.forEach(h => h.innerHTML = '<p class="small">Chart data could not load.</p>'); return; }
   const NS = 'http://www.w3.org/2000/svg';
   const series = [
     { key: 'voynich', name: 'Voynichese', cls: 's1', color: 'var(--series-1)' },

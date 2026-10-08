@@ -1,7 +1,7 @@
 /* Book map: every surviving page as a tile, coloured by section, language or scribe. */
-(async function () {
+(function () {
   const host = document.getElementById('bookmap'); if (!host) return;
-  let data; try { data = await (await fetch('data/folios.json')).json(); } catch (e) { host.innerHTML = '<p class="small">The page map could not load its data.</p>'; return; }
+  const data = (window.VOYNICH && window.VOYNICH.folios); if (!data) { host.innerHTML = '<p class="small">The page map could not load its data.</p>'; return; }
 
   const SECTIONS = { herbal: 'Herbal', astronomical: 'Astronomical', zodiac: 'Zodiac', cosmological: 'Cosmological', biological: 'Biological', pharmaceutical: 'Pharmaceutical', recipes: 'Recipes (stars)', text: 'Text only' };
   const MODES = {

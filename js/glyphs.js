@@ -63,8 +63,7 @@
     const MID = [['k', 14], ['t', 12], ['ke', 10], ['te', 8], ['kee', 6], ['tee', 5], ['l', 8], ['e', 8], ['ee', 6], ['', 23]];
     const END = [['dy', 22], ['y', 18], ['aiin', 16], ['ol', 10], ['ar', 7], ['or', 6], ['al', 6], ['ain', 5], ['in', 4], ['am', 2], ['s', 4]];
     const pick = arr => { const tot = arr.reduce((a, b) => a + b[1], 0); let r = Math.random() * tot; for (const [v, w] of arr) { r -= w; if (r <= 0) return v; } return arr[0][0]; };
-    let words = null;
-    fetch('data/words.json').then(r => r.json()).then(j => words = j).catch(() => {});
+    const words = (window.VOYNICH && window.VOYNICH.words) || null;
     const slots = wb.querySelectorAll('.slot'), res = wb.querySelector('.result'), verdict = wb.querySelector('.verdict');
     function roll() {
       let parts = [pick(PRE), pick(START), pick(MID), pick(END)];

@@ -236,8 +236,11 @@ p.standfirst { font-family: var(--display); font-size: 1.32em; line-height: 1.38
 .hand-1 { --c: #2f6fb5; } .hand-2 { --c: #b5452c; } .hand-3 { --c: #4b8f2f; } .hand-4 { --c: #7b52c1; } .hand-5 { --c: #b58a2c; }
 
 /* ---------- lives chart (the carbon date against the candidates) ---------- */
-.lives { margin: 2em 0; font-family: var(--ui); --from: 1200; --to: 1950; }
-.lives .axis { display: grid; grid-template-columns: 190px 1fr; align-items: end; margin-bottom: 6px; }
+.lives { margin: 2.4em auto; font-family: var(--ui); --from: 1200; --to: 1950; padding: 20px 22px 16px; border: 1px solid var(--rule); border-radius: 12px; background: linear-gradient(180deg, var(--paper-2), var(--paper)); }
+.lives .title { font-family: var(--display); font-weight: 500; font-size: 1.35rem; margin-bottom: 4px; font-variation-settings: "opsz" 30; color: var(--ink); }
+.lives .sub { font-family: var(--ui); font-size: .84rem; color: var(--ink-2); margin-bottom: 18px; max-width: 72ch; line-height: 1.5; }
+.lives .sub b { color: var(--copper); font-weight: 700; }
+.lives .axis { display: grid; grid-template-columns: 190px 1fr; align-items: end; margin-bottom: 6px; padding-top: 4px; }
 .lives .axis .ticks { position: relative; height: 22px; border-bottom: 1px solid var(--rule-strong); }
 .lives .axis .ticks span { position: absolute; bottom: 4px; transform: translateX(-50%); font-size: .72rem; color: var(--ink-2); letter-spacing: .04em; }
 .lives .axis .ticks span::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 1px; height: 5px; background: var(--rule-strong); }
@@ -247,7 +250,7 @@ p.standfirst { font-family: var(--display); font-size: 1.32em; line-height: 1.38
 .lives .rows { margin-bottom: 26px; }
 .lives .row { display: grid; grid-template-columns: 190px 1fr; align-items: center; min-height: 46px; border-top: 1px solid var(--rule); position: relative; }
 .lives .row:last-child { border-bottom: 1px solid var(--rule); }
-.lives .who { padding: 8px 12px 8px 0; font-size: .86rem; line-height: 1.25; }
+.lives .who { padding: 8px 14px 8px 2px; font-size: .86rem; line-height: 1.25; }
 .lives .who b { display: block; font-family: var(--display); font-size: 1.05rem; font-weight: 500; }
 .lives .who small { color: var(--ink-2); font-size: .72rem; }
 .lives .track { position: relative; height: 46px; }
@@ -261,7 +264,7 @@ p.standfirst { font-family: var(--display); font-size: 1.32em; line-height: 1.38
   .lives .axis, .lives .row { grid-template-columns: 1fr; }
   .lives .axis .who { display: none; }
   .lives .band { left: calc((var(--b0) - var(--from)) / (var(--to) - var(--from)) * 100%); width: calc((var(--b1) - var(--b0)) / (var(--to) - var(--from)) * 100%); }
-  .lives .who { padding: 8px 0 0; } .lives .track { height: 40px; } .lives .bar { top: 10px; }
+  .lives { padding: 14px 12px 12px; } .lives .who { padding: 8px 0 0; } .lives .track { height: 40px; } .lives .bar { top: 10px; }
   .lives .verdict { font-size: .68rem; top: 8px; }
 }
 
